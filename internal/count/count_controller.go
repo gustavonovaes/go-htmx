@@ -23,6 +23,17 @@ func (c *CountController) GetCount(s *core.Server, w http.ResponseWriter, _ *htt
 
 func (c *CountController) IncCount(s *core.Server, w http.ResponseWriter, _ *http.Request) {
 	c.count.Count++
+
+	if (c.count.Count % 10) == 0 {
+		s.Send(w, http.StatusInternalServerError, "Ops! Something went wrong")
+		return
+	}
+
+	if (c.count.Count % 5) == 0 {
+		s.Send(w, http.StatusTeapot, "I'm a teapot")
+		return
+	}
+
 	s.SendJSON(w, c.count)
 }
 

@@ -1,13 +1,26 @@
 {{ template "header" . }}
 
-<div class="container">
+
+{{ template "footer" . }}
+
+
+{{ template "header" . }}
+
+{{ template "navbar" . }}
+
+<div class="uk-container uk-margin-medium">
   <div>
     <button hx-get="/api/count" hx-trigger="click" class="fetch-button" hx-target="#count"
       hx-swap="textContent">Get</button>
 
-    <button hx-post="/api/count" hx-trigger="click" class="fetch-button" hx-target="#count">Increment</button>
+    <button hx-post="/api/count" hx-trigger="click" class="fetch-button" hx-target="#count"
+      hx-target-error="#error">Increment</button>
+
   </div>
   <pre id="count" class="count"></pre>
+
+  <span id="error" class="uk-label uk-label-danger"></span>
 </div>
+
 
 {{ template "footer" . }}

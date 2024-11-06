@@ -1,0 +1,24 @@
+{{ define "navbar" }}
+
+<div class="uk-navbar-container">
+  <div class="uk-container">
+
+    <div uk-navbar="">
+
+      <div class="uk-navbar-left">
+
+        <a class="uk-navbar-item uk-logo" href="#">HTMX & Go</a>
+
+        <ul class="uk-navbar-nav">
+          <li {{ if eq .Path "/" }} class="uk-active" {{end}}><a href="/">Home</a></li>
+          <li {{ if eq .Path "/count" }} class="uk-active" {{end}}><a href="/count">Count</a></li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{{ end }}
