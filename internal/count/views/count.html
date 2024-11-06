@@ -1,0 +1,13 @@
+{{ template "header" . }}
+
+<div class="container">
+  <div>
+    <button hx-get="/api/count" hx-trigger="click" class="fetch-button" hx-target="#count"
+      hx-swap="textContent">Get</button>
+
+    <button hx-post="/api/count" hx-trigger="click" class="fetch-button" hx-target="#count">Increment</button>
+  </div>
+  <pre id="count" class="count"></pre>
+</div>
+
+{{ template "footer" . }}
