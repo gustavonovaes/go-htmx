@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"gustavonovaes.dev/go-htmx/internal"
 	"gustavonovaes.dev/go-htmx/internal/core"
@@ -24,11 +26,7 @@ func main() {
 	}
 
 	addr := fmt.Sprintf(":%s", port)
-	log.Printf("INFO: Listening in %s...", addr)
-	err := http.ListenAndServe(addr, server)
-	if err != nil {
-		log.Fatalf("Fail to start on addr: %q", addr)
-	}
+	listenWithGracefulShutdown(addr, server)
 }
 
 func createServer() *core.Server {
@@ -68,11 +66,22 @@ func createServer() *core.Server {
 	return core.NewServer(tr, routes)
 }
 
-func indexHandler(s *core.Server, w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		s.Send(w, http.StatusNotFound, "Page not found")
-		return
-	}
+func listenWithGracefulShutdown(addr string, server *core.Server) {
+	stopChan := make(chan os.Signal, 1)
+	signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
 
-	s.Render(w, "index.html", nil)
+	go func() {
+		log.Printf("INFO: Listening in %s...", addr)
+		err := http.ListenAndServe(addr, server)
+		if err != nil {
+			log.Fatalf("ERROR: Fail to start on addr: %q", addr)
+		}
+	}()
+
+	<-stopChan
+	log.Println("INFO: Shutting down server...")
+
+	// Add your cleanup code here
+
+	log.Println("INFO: Server gracefully stopped")
 }
