@@ -45,6 +45,7 @@ func createServer() *core.Server {
 		log.Printf("INFO: Template found: %q", name)
 	}
 
+	indexController := core.IndexController{}
 	countController := count.NewCountController()
 
 	routes := []core.Route{
@@ -61,7 +62,7 @@ func createServer() *core.Server {
 		},
 
 		// Need to be the last route
-		{Pattern: "GET /", Handler: indexHandler},
+		{Pattern: "GET /", Handler: indexController.RenderIndex},
 	}
 
 	return core.NewServer(tr, routes)
