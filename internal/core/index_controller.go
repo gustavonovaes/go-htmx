@@ -13,3 +13,7 @@ func (c *IndexController) RenderIndex(s *Server, w http.ResponseWriter, r *http.
 
 	s.Render(w, "index.html", nil)
 }
+
+func NewIndexController() *IndexController {
+	return &IndexController{}
+}

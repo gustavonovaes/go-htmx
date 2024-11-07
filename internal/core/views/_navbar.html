@@ -10,8 +10,10 @@
         <a class="uk-navbar-item uk-logo" href="#">HTMX & Go</a>
 
         <ul class="uk-navbar-nav">
-          <li {{ if eq .Path "/" }} class="uk-active" {{end}}><a href="/">Home</a></li>
-          <li {{ if eq .Path "/count" }} class="uk-active" {{end}}><a href="/count">Count</a></li>
+          <li {{ if eq .Path "/" }} class="uk-active" {{end}}><a hx-get="/home" hx-target="#container"
+              hx-trigger="click">Home</a></li>
+          <li {{ if eq .Path "/count" }} class="uk-active" {{end}}><a hx-get="/count" hx-target="#container"
+              hx-trigger="click">Count</a></li>
         </ul>
 
       </div>

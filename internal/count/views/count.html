@@ -1,26 +1,12 @@
-{{ template "header" . }}
+<div>
+  <button hx-on:htmx:before-request="cleanErrors()" hx-get="/api/count" hx-trigger="click" class="fetch-button"
+    hx-target="#count" hx-swap="textContent">Get</button>
 
+  <button hx-on:htmx:before-request="cleanErrors()" hx-post="/api/count" hx-trigger="click" class="fetch-button"
+    hx-target="#count" hx-target-error="#error">Increment</button>
 
-{{ template "footer" . }}
-
-
-{{ template "header" . }}
-
-{{ template "navbar" . }}
-
-<div class="uk-container uk-margin-medium">
-  <div>
-    <button hx-get="/api/count" hx-trigger="click" class="fetch-button" hx-target="#count"
-      hx-swap="textContent">Get</button>
-
-    <button hx-post="/api/count" hx-trigger="click" class="fetch-button" hx-target="#count"
-      hx-target-error="#error">Increment</button>
-
-  </div>
-  <pre id="count" class="count"></pre>
-
-  <span id="error" class="uk-label uk-label-danger"></span>
 </div>
+<pre id="count" class="count"></pre>
 
-
-{{ template "footer" . }}
+<span id="error" class="uk-label uk-label-danger"></span>
+</div>

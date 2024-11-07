@@ -11,6 +11,7 @@ import (
 	"gustavonovaes.dev/go-htmx/internal"
 	"gustavonovaes.dev/go-htmx/internal/core"
 	"gustavonovaes.dev/go-htmx/internal/count"
+	"gustavonovaes.dev/go-htmx/internal/home"
 )
 
 const (
@@ -43,10 +44,14 @@ func createServer() *core.Server {
 		log.Printf("INFO: Template found: %q", name)
 	}
 
-	indexController := core.IndexController{}
+	indexController := core.NewIndexController()
+	homeController := home.NewHomeController()
 	countController := count.NewCountController()
 
 	routes := []core.Route{
+		// Home
+		{Pattern: "GET /home", Handler: homeController.RenderHome},
+
 		// Count
 		{Pattern: "GET /count", Handler: countController.RenderCount},
 		{Pattern: "GET /api/count", Handler: countController.GetCount},

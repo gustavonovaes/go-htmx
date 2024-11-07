@@ -2,8 +2,9 @@
 
 {{ template "navbar" . }}
 
-<div class="uk-container uk-margin-medium">
-    Welcome to HTMX & Go!
+<div id="container" class="uk-container uk-margin-medium" hx-trigger="load" hx-get="/home"
+    hx-swap="innerHTML swap:280ms">
+    <span>Carregando...</span>
 </div>
 
 {{ template "footer" . }}
