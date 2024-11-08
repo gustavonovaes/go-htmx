@@ -1,14 +1,30 @@
-<button class="uk-button uk-button-primary" hx-on:htmx:before-request="cleanErrors()" hx-get="/api/count"
-  hx-vals="js:{sleep: getSleep()}" hx-trigger="click, load" hx-target="#count" hx-swap="textContent"
-  hx-indicator="#loading-global">Get</button>
+<div>
+  <button class="uk-button uk-button-primary"
+          hx-on:htmx:before-request="cleanErrors()"
+          hx-get="/api/count"
+          hx-vals="js:{sleep: getSleep()}"
+          hx-trigger="load, click queue:none"
+          hx-disabled-elt="closest button"
+          hx-target="#count"
+          hx-target-error="#error"
+          hx-indicator="#loading-global">Get</button>
 
-<button class="uk-button uk-button-secondary" hx-on:htmx:before-request="cleanErrors()"
-  hx-on:htmx:after-request="updateSleep(event)" hx-post="/api/count" hx-trigger="click" hx-target="#count"
-  hx-target-error="#error" hx-indicator="#loading-global">Increment</button>
+  <button class="uk-button uk-button-secondary"
+          hx-on:htmx:before-request="cleanErrors()"
+          hx-on:htmx:after-request="updateSleep(event)"
+          hx-post="/api/count"
+          hx-trigger="click queue:none"
+          hx-disabled-elt="closest button"
+          hx-target="#count"
+          hx-target-error="#error"
+          hx-indicator="#loading-global">Increment</button>
+</div>
 
-<pre id="count" class="count"></pre>
+<pre id="count"
+     class="count"></pre>
 
-<span id="error" class="uk-label uk-label-danger"></span>
+<span id="error"
+      class="uk-label uk-label-danger"></span>
 
 <script>
   function getSleep() {

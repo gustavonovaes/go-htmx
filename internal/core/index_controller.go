@@ -11,7 +11,10 @@ func (c *IndexController) RenderIndex(s *Server, w http.ResponseWriter, r *http.
 		return
 	}
 
-	s.Render(w, "index.html", nil)
+	s.Render(w, "index.html", map[string]interface{}{
+		"Title":       "HTMX & Go",
+		"Description": "Learn to count with HTMX and Go",
+	})
 }
 
 func NewIndexController() *IndexController {

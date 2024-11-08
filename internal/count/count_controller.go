@@ -14,7 +14,6 @@ type CountController struct {
 
 func (c *CountController) RenderCount(s *core.Server, w http.ResponseWriter, _ *http.Request) {
 	s.Render(w, "count.html", map[string]interface{}{
-		"Title": "HTMX & Go - Count",
 		"Count": c.count.Count,
 	})
 }
