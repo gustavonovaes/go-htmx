@@ -27,9 +27,15 @@ Install the extension [emeraldwalk/vscode-runonsave](https://github.com/emeraldw
 },
 ```
 
+## Try
+
+[https://go-htmx-18ejig.fly.dev/](https://go-htmx-18ejig.fly.dev/)
+
 ## Running
 
 ```bash
+git clone https://github.com/gustavonovaes/go-htmx
+go mod download
 air
 ```
 
