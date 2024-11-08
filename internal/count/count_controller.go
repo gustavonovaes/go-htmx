@@ -2,6 +2,8 @@ package count
 
 import (
 	"net/http"
+	"strconv"
+	"time"
 
 	"gustavonovaes.dev/go-htmx/internal/core"
 )
@@ -17,7 +19,12 @@ func (c *CountController) RenderCount(s *core.Server, w http.ResponseWriter, _ *
 	})
 }
 
-func (c *CountController) GetCount(s *core.Server, w http.ResponseWriter, _ *http.Request) {
+func (c *CountController) GetCount(s *core.Server, w http.ResponseWriter, r *http.Request) {
+	if r.URL.Query().Has("sleep") {
+		ms, _ := strconv.Atoi(r.URL.Query().Get("sleep"))
+		time.Sleep(time.Duration(ms) * time.Millisecond)
+	}
+
 	s.SendJSON(w, c.count)
 }
 

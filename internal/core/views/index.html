@@ -2,9 +2,15 @@
 
 {{ template "navbar" . }}
 
-<div id="container" class="uk-container uk-margin-medium" hx-trigger="load" hx-get="/home"
-    hx-swap="innerHTML swap:280ms">
-    <span>Carregando...</span>
+<div id="loading-global" class="htmx-indicator uk-transition-fade uk-flex uk-flex-column uk-flex-center uk-flex-middle">
+    <div uk-spinner="ratio: 2"></div>
+    <span class="uk-text-middle uk-margin-small-top">Loading...</span>
+</div>
+
+<div class="uk-section">
+    <div id="container" class="uk-container uk-margin-medium uk-flex-1" hx-trigger="load" hx-get="/home"
+        hx-swap="innerHTML" htmx-indicator="#loading-global">
+    </div>
 </div>
 
 {{ template "footer" . }}

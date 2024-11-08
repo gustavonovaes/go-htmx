@@ -1,12 +1,26 @@
-<div>
-  <button hx-on:htmx:before-request="cleanErrors()" hx-get="/api/count" hx-trigger="click" class="fetch-button"
-    hx-target="#count" hx-swap="textContent">Get</button>
+<button hx-on:htmx:before-request="cleanErrors()" hx-get="/api/count" hx-vals="js:{sleep: getSleep()}"
+  hx-trigger="click, load" class="fetch-button" hx-target="#count" hx-swap="textContent"
+  hx-indicator="#loading-global">Get</button>
 
-  <button hx-on:htmx:before-request="cleanErrors()" hx-post="/api/count" hx-trigger="click" class="fetch-button"
-    hx-target="#count" hx-target-error="#error">Increment</button>
+<button hx-on:htmx:before-request="cleanErrors()" hx-on:htmx:after-request="updateSleep(event)" hx-post="/api/count"
+  hx-trigger="click" class="fetch-button" hx-target="#count" hx-target-error="#error"
+  hx-indicator="#loading-global">Increment</button>
 
-</div>
 <pre id="count" class="count"></pre>
 
 <span id="error" class="uk-label uk-label-danger"></span>
-</div>
+
+<script>
+  function getSleep() {
+    return getQueryParam('sleep', 500);
+  }
+
+  function updateSleep(event) {
+    const count = parseInt(JSON.parse(event.detail.xhr.response)?.Count);
+    if (!count) {
+      throw new Error('Invalid count');
+    }
+
+    setQueryParam('sleep', count * 100);
+  }
+</script>
