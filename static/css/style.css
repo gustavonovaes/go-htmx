@@ -6,12 +6,6 @@ body {
   margin: 0;
 }
 
-[hx-ext="response-targets"] {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
 #loading-global.htmx-indicator {
   position: absolute;
   top: 0;
