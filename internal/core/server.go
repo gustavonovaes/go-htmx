@@ -77,7 +77,6 @@ func writeResponse(
 		_, err := fmt.Fprintln(w, content)
 		return err
 	default:
-		w.Header().Set("content-type", "text/plain")
 		_, err := fmt.Fprintln(w, content)
 		return err
 	}
