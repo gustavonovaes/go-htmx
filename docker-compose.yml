@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  app:
+    container_name: go-htmx-app
+    build: .
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          # cpus: '0.50'
+          memory: 128M
+        reservations:
+          # cpus: '0.25'
+          memory: 64M
