@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"runtime"
 	"time"
 )
 
@@ -12,6 +13,8 @@ type Route struct {
 	Pattern string
 	Handler interface{}
 }
+
+var m runtime.MemStats
 
 func setupRoutes(s *Server, routes []Route) error {
 	router := http.NewServeMux()
@@ -23,7 +26,15 @@ func setupRoutes(s *Server, routes []Route) error {
 			// TODO: middlewares
 
 			fn(s, w, r)
-			log.Printf("INFO: %s %v %s ", r.Method, time.Since(start), r.URL.Path)
+			runtime.ReadMemStats(&m)
+
+			log.Printf(
+				"INFO: %s %v %s - RAM %.2f MB",
+				r.Method,
+				time.Since(start),
+				r.URL.Path,
+				float64(m.Alloc)/1024/1024,
+			)
 		})
 	}
 
