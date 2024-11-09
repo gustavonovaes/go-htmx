@@ -39,3 +39,41 @@ function replaceStorage(obj = {}) {
         setStorage(key, value);
     }
 }
+
+function onDocumentReady(callback) {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', callback);
+    } else {
+        callback();
+    }
+}
+
+function onHTMXLoad(callback) {
+    document.body.addEventListener('htmx:load', callback);
+}
+
+function onHTMXError(callback) {
+    document.body.addEventListener('htmx:error', callback);
+}
+
+function notify(text) {
+    UIkit.notification(text, { pos: 'bottom-right' });
+}
+
+function notifySuccess(text) {
+    UIkit.notification(text, { pos: 'bottom-right', status: 'success' });
+}
+
+function notifyInfo(text) {
+    UIkit.notification(text, { pos: 'bottom-right', status: 'primary' });
+}
+
+function notifyError(text) {
+    UIkit.notification(text, { pos: 'bottom-right', status: 'danger' });
+}
+
+function errorHandler(error, context = {}, skipNotify = false) {
+    console.error({ error, context });
+    const message = error instanceof Error ? error.message : error;
+    !skipNotify && notifyError(message);
+}

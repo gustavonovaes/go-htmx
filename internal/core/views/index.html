@@ -46,6 +46,22 @@
                  hx-get="/home"
                  htmx-indicator="#loading-global" />
       </div>
+
+      <script async>
+            onDocumentReady(() => {
+                  notify('Document ready!');
+            });
+
+            onHTMXLoad((event) => {
+                  const elt = event.detail.elt;
+                  const name = `${elt.tagName}#${elt.parentElement.id}`;
+                  notifyInfo(`HTMX load: ${name}`);
+            })
+
+            onHTMXError((event) => {
+                  errorHandler(error, event.detail.elt, true);
+            });
+      </script>
 </body>
 
 </html>
