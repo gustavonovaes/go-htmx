@@ -9,30 +9,35 @@
       <meta name="description"
             content="{{ .Description }}" />
 
-      <link rel="stylesheet"
-            href="/static/css/style.css" />
+      <!-- Custom CSS -->
+      <link rel="preload"
+            href="/static/css/style.css"
+            as="style" />
 
       <!-- UIkit CSS -->
-      <link rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/uikit@3.21.13/dist/css/uikit.min.css" />
+      <link rel="preload"
+            href="https://cdn.jsdelivr.net/npm/uikit@3.21.13/dist/css/uikit.min.css"
+            as="style" />
 
       <!-- htmx JS -->
-      <script src="https://unpkg.com/htmx.org@2.0.3"
+      <script defer
+              src="https://unpkg.com/htmx.org@2.0.3"
               integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
               crossorigin="anonymous"></script>
 
       <!-- htmx extensions -->
-      <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
+      <script defer src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
+      <script defer src="https://unpkg.com/htmx.org@1.9.12/dist/ext/path-params.js"></script>
 
       <!-- UIkit JS -->
-      <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.13/dist/js/uikit.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.13/dist/js/uikit-icons.min.js"></script>
+      <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.13/dist/js/uikit.min.js"></script>
+      <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.13/dist/js/uikit-icons.min.js"></script>
 
       <!-- Rambda -->
-      <script src="https://unpkg.com/rambda@9.4.0/dist/rambda.umd.js"></script>
+      <script defer src="https://unpkg.com/rambda@9.4.0/dist/rambda.umd.js"></script>
 
       <!-- Custom JS -->
-      <script src="/static/js/script.js"></script>
+      <script defer src="/static/js/script.js"></script>
 </head>
 
 <body hx-ext="response-targets">
@@ -47,7 +52,7 @@
                  htmx-indicator="#loading-global" />
       </div>
 
-      <script async>
+      <script defer>
             onDocumentReady(() => {
                   notify('Document ready!');
             });
