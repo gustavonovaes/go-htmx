@@ -45,3 +45,7 @@ air
 docker build -t go-htmx .
 docker run -p 8080:8080 go-htmx
 ```
+
+
+## Treemap
+![googlechrome github io_lighthouse_treemap__gzip=1](https://github.com/user-attachments/assets/db25958b-4cfb-4be9-9955-51eff8e5a9f0)
