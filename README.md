@@ -1,5 +1,14 @@
+ ## Dependencies
 
-## Tools to install
+- [net/http](https://pkg.go.dev/net/http) 
+- [html/template](https://pkg.go.dev/html/template)
+- [UIkit](https://getuikit.com/) (CSS framework)
+- [htmx](https://htmx.org/)
+- [htmx-ext-response-targets](https://unpkg.com/htmx-ext-response-targets) (for target error response)
+- [htmx-ext-path-params](https://unpkg.com/htmx.org) (for path params)
+- [ramda](https://ramdajs.com/) (unused but included in the project)
+
+## Recommended tools 
 
 ```bash
 # for language server
@@ -15,7 +24,7 @@ go install github.com/segmentio/golines@latest
 go install github.com/jondot/goweight@latest
 ```
 
-## Configure VSCode to run `golines` on save
+### Configure VSCode to run `golines` on save
 
 Install the extension [emeraldwalk/vscode-runonsave](https://github.com/emeraldwalk/vscode-runonsave) and add the following configuration to the `settings.json` file:
 
@@ -30,11 +39,11 @@ Install the extension [emeraldwalk/vscode-runonsave](https://github.com/emeraldw
 },
 ```
 
-## Try
+## Try it out
 
 [https://go-htmx-18ejig.fly.dev/](https://go-htmx-18ejig.fly.dev/)
 
-## Running
+## Running locally
 
 ```bash
 git clone https://github.com/gustavonovaes/go-htmx
