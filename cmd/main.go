@@ -10,6 +10,7 @@ import (
 
 	"gustavonovaes.dev/go-htmx/internal"
 	"gustavonovaes.dev/go-htmx/internal/core"
+	"gustavonovaes.dev/go-htmx/internal/core/middleware"
 	"gustavonovaes.dev/go-htmx/internal/count"
 	"gustavonovaes.dev/go-htmx/internal/home"
 )
@@ -44,31 +45,57 @@ func createServer() *core.Server {
 		log.Printf("INFO: Template found: %q", name)
 	}
 
-	indexController := core.NewIndexController()
 	homeController := home.NewHomeController()
 	countController := count.NewCountController()
 
-	routes := []core.Route{
-		// Home
-		{Pattern: "GET /home", Handler: homeController.RenderHome},
+	withLog := middleware.CreateStack(
+		middleware.Logger,
+	)
 
-		// Count
-		{Pattern: "GET /count", Handler: countController.RenderCount},
-		{Pattern: "GET /api/count", Handler: countController.GetCount},
-		{Pattern: "POST /api/count", Handler: countController.IncCount},
+	withUser := middleware.CreateStack(
+		middleware.Logger,
+		middleware.EnsureLoggedIn,
+	)
 
-		// Static files
-		{Pattern: "GET /favicon.ico", Handler: http.NotFoundHandler()},
-		{
-			Pattern: "GET /static/",
-			Handler: http.StripPrefix("/static/", http.FileServer(http.Dir("static"))),
-		},
+	withAdmin := middleware.CreateStack(
+		middleware.Logger,
+		middleware.EnsureLoggedIn,
+		middleware.EnsureAdmin,
+	)
 
-		// Need to be the last route
-		{Pattern: "GET /", Handler: indexController.RenderIndex},
-	}
+	return core.NewServer(tr, func(s *core.Server) http.Handler {
+		wrapRoute := func(sh core.ServerHandler, middleware middleware.Middleware) http.Handler {
+			handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				sh(s, w, r)
+			})
 
-	return core.NewServer(tr, routes)
+			if middleware != nil {
+				return middleware(handler)
+			}
+
+			return handler
+		}
+
+		routerHome := http.NewServeMux()
+		routerHome.Handle("GET /", wrapRoute(homeController.RenderHome, withUser))
+
+		routerCount := http.NewServeMux()
+		routerCount.Handle("GET /count", wrapRoute(countController.RenderCount, withAdmin))
+		routerCount.Handle("POST /count", wrapRoute(countController.IncCount, withAdmin))
+
+		router := http.NewServeMux()
+		router.Handle("/home", routerHome)
+		router.Handle("/count", routerCount)
+
+		router.Handle("GET /favicon.ico", http.NotFoundHandler())
+		router.Handle(
+			"GET /static/",
+			http.StripPrefix("/static/", http.FileServer(http.Dir("static"))),
+		)
+		router.Handle("/", wrapRoute(core.NewIndexController().RenderIndex, withLog))
+
+		return router
+	})
 }
 
 func listenWithGracefulShutdown(addr string, server *core.Server) {

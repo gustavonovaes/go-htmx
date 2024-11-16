@@ -12,7 +12,17 @@ type CountController struct {
 	count Count `json:"count"`
 }
 
-func (c *CountController) RenderCount(s *core.Server, w http.ResponseWriter, _ *http.Request) {
+func (c *CountController) RenderCount(s *core.Server, w http.ResponseWriter, r *http.Request) {
+	if r.Header.Get("Accept") == "application/json" {
+		if r.URL.Query().Has("sleep") {
+			ms, _ := strconv.Atoi(r.URL.Query().Get("sleep"))
+			time.Sleep(time.Duration(ms) * time.Millisecond)
+		}
+
+		s.SendJSON(w, c.count)
+		return
+	}
+
 	s.Render(w, "count.html", map[string]interface{}{
 		"Count": c.count.Count,
 	})
@@ -31,12 +41,12 @@ func (c *CountController) IncCount(s *core.Server, w http.ResponseWriter, _ *htt
 	c.count.Count++
 
 	if (c.count.Count % 10) == 0 {
-		s.Send(w, http.StatusInternalServerError, "Ops! Something went wrong")
+		s.Send(w, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError))
 		return
 	}
 
 	if (c.count.Count % 5) == 0 {
-		s.Send(w, http.StatusTeapot, "I'm a teapot")
+		s.Send(w, http.StatusTeapot, http.StatusText(http.StatusTeapot))
 		return
 	}
 

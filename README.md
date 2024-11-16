@@ -6,7 +6,7 @@
 - [htmx](https://htmx.org/)
 - [htmx-ext-response-targets](https://unpkg.com/htmx-ext-response-targets) (for target error response)
 - [htmx-ext-path-params](https://unpkg.com/htmx.org) (for path params)
-- [ramda](https://ramdajs.com/) (unused but included in the project)
+- [rambda](https://selfrefactor.github.io/rambda/#/) (unused but included in the project)
 
 ## Recommended tools 
 

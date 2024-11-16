@@ -33,15 +33,13 @@ func (s *Server) SendJSON(w http.ResponseWriter, content interface{}) error {
 	return writeResponse(w, http.StatusOK, content, "application/json")
 }
 
-func NewServer(t *internal.TemplateRenderer, routes []Route) *Server {
+func NewServer(
+	t *internal.TemplateRenderer,
+	fn func(s *Server) http.Handler,
+) *Server {
 	var server = new(Server)
-
 	server.templateRenderer = t
-
-	err := setupRoutes(server, routes)
-	if err != nil {
-		log.Fatalf("ERROR: Fail to setup routes: %v", err)
-	}
+	server.Handler = fn(server)
 
 	return server
 }
