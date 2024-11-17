@@ -29,8 +29,12 @@ func (s *Server) Send(w http.ResponseWriter, statusCode int, content string) err
 	return writeResponse(w, statusCode, content, "text/html")
 }
 
-func (s *Server) SendJSON(w http.ResponseWriter, content interface{}) error {
-	return writeResponse(w, http.StatusOK, content, "application/json")
+func (s *Server) SendJSON(w http.ResponseWriter, content interface{}, statusCode int) error {
+	if statusCode == 0 {
+		statusCode = http.StatusOK
+	}
+
+	return writeResponse(w, statusCode, content, "application/json")
 }
 
 func NewServer(

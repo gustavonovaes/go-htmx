@@ -7,7 +7,14 @@ type IndexController struct {
 
 func (c *IndexController) RenderIndex(s *Server, w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		s.Send(w, http.StatusNotFound, "Page not found")
+		if r.Header.Get("Accept") == "application/json" {
+			s.SendJSON(w, map[string]interface{}{
+				"error": http.StatusText(http.StatusNotFound),
+			}, http.StatusNotFound)
+			return
+		}
+
+		s.Send(w, http.StatusNotFound, http.StatusText(http.StatusNotFound))
 		return
 	}
 

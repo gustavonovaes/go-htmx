@@ -19,7 +19,7 @@ func (c *CountController) RenderCount(s *core.Server, w http.ResponseWriter, r *
 			time.Sleep(time.Duration(ms) * time.Millisecond)
 		}
 
-		s.SendJSON(w, c.count)
+		s.SendJSON(w, c.count, http.StatusOK)
 		return
 	}
 
@@ -34,7 +34,7 @@ func (c *CountController) GetCount(s *core.Server, w http.ResponseWriter, r *htt
 		time.Sleep(time.Duration(ms) * time.Millisecond)
 	}
 
-	s.SendJSON(w, c.count)
+	s.SendJSON(w, c.count, http.StatusOK)
 }
 
 func (c *CountController) IncCount(s *core.Server, w http.ResponseWriter, _ *http.Request) {
@@ -50,7 +50,7 @@ func (c *CountController) IncCount(s *core.Server, w http.ResponseWriter, _ *htt
 		return
 	}
 
-	s.SendJSON(w, c.count)
+	s.SendJSON(w, c.count, http.StatusOK)
 }
 
 func NewCountController() *CountController {
